@@ -2,59 +2,45 @@
 {
     public class DependenciesConfiguration
     {
-        public Dictionary<Type, List<Implementation>> dDepImpl { get; private set; }
+        public Dictionary<Type, List<Implementation>> DepImplDictionary { get; set; }
 
-
-        // methods
-        public DependencyInjectorConfiguration()
+        public DependenciesConfiguration()
         {
-            dDepImpl = new Dictionary<Type, List<Implementation>>();
+            DepImplDictionary = new Dictionary<Type, List<Implementation>>();
         }
 
-
-
-        public void Register<TDependency, TImplementation>(bool singleton = false)
+        public void Register<TDependency, TImplementation>(bool isSingleton = false)
         {
-            Register(typeof(TDependency), typeof(TImplementation), singleton);
-        }
+            Type tDependency = typeof(TDependency);
+            Type tImplementation = typeof(TImplementation);
 
-
-
-        public void Register(Type tDependency, Type tImplementation, bool singleton = false)
-        {
             if (tImplementation.IsAbstract)
             {
-                throw new ArgumentException("Register failed. Implementation could not be abstract");
+                throw new ArgumentException("Registration fail. Implementation is abstract");
             }
 
             if (!tDependency.IsAssignableFrom(tImplementation)
                 && !tDependency.IsGenericTypeDefinition
                 && !tImplementation.IsGenericTypeDefinition)
             {
-                throw new ArgumentException("Register failed. Dependency is not assignable from implementation");
+                throw new ArgumentException("Registration fail. Dependency is not assignable from implementation");
             }
 
-            List<Implementation> implsForSpecificDependency;
-            if (!dDepImpl.TryGetValue(tDependency, out implsForSpecificDependency))
+            List<Implementation> dependencyImplementations;
+            if (!DepImplDictionary.TryGetValue(tDependency, out dependencyImplementations))
             {
-                implsForSpecificDependency = new List<Implementation>();
-                dDepImpl[tDependency] = implsForSpecificDependency;
+                dependencyImplementations = new List<Implementation>();
+                DepImplDictionary[tDependency] = dependencyImplementations;
             }
-            implsForSpecificDependency.Add(new Implementation(tImplementation, singleton));
+            dependencyImplementations.Add(new Implementation(tImplementation, isSingleton));
         }
-
-
-
-        public List<Implementation> GetImplementationsForDependency(Type tDependency)
+        public List<Implementation>? GetImplementationsForDependency(Type tDependency)
         {
-            if (dDepImpl.ContainsKey(tDependency))
+            if (DepImplDictionary.ContainsKey(tDependency))
             {
-                return dDepImpl[tDependency];
+                return DepImplDictionary[tDependency];
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
