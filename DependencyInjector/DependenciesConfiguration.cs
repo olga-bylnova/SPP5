@@ -11,9 +11,11 @@
 
         public void Register<TDependency, TImplementation>(bool isSingleton = false)
         {
-            Type tDependency = typeof(TDependency);
-            Type tImplementation = typeof(TImplementation);
+            Register(typeof(TDependency), typeof(TImplementation), isSingleton);
+        }
 
+        public void Register(Type tDependency, Type tImplementation, bool isSingleton = false)
+        {
             if (tImplementation.IsAbstract)
             {
                 throw new ArgumentException("Registration fail. Implementation is abstract");

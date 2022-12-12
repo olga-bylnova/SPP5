@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjector", "DependencyInjector\DependencyInjector.csproj", "{6C001B19-8C7D-4801-9B9C-559583A9D172}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{6DD375DE-4BC3-4993-8FA0-40EA9B7BBAFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6C001B19-8C7D-4801-9B9C-559583A9D172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C001B19-8C7D-4801-9B9C-559583A9D172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C001B19-8C7D-4801-9B9C-559583A9D172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD375DE-4BC3-4993-8FA0-40EA9B7BBAFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD375DE-4BC3-4993-8FA0-40EA9B7BBAFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD375DE-4BC3-4993-8FA0-40EA9B7BBAFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD375DE-4BC3-4993-8FA0-40EA9B7BBAFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

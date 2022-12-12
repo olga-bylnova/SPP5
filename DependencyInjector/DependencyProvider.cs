@@ -27,14 +27,15 @@
             }
 
             object? result;
-            if (typeof(IEnumerable<>).IsAssignableFrom(tDependency))
+            if (tDependency.IsGenericType && 
+                tDependency.GetGenericTypeDefinition() == typeof(IEnumerable<>))
             {
                 Type argumentType = tDependency.GetGenericArguments()[0];
                 var implementations = new List<Implementation>(DConfig.GetImplementationsForDependency(argumentType));
                 var createdArguments = (object[])Activator.CreateInstance(argumentType.MakeArrayType(), new object[] { implementations.Count });
                 for (var i = 0; i < implementations.Count; i++)
                 {
-                    createdArguments[i] = HandleSingletonCase(implementations[i]);
+                    createdArguments[i] = CreateObjectOrGetObjectIfSingleton(implementations[i]);
                 }
                 result = createdArguments;
             }
@@ -54,10 +55,9 @@
                         implementations = new List<Implementation>(DConfig.GetImplementationsForDependency(tDependency));
                     }
                 }
-
                 if (implementations.Any())
                 {
-                    result = HandleSingletonCase(implementations[0]);
+                    result = CreateObjectOrGetObjectIfSingleton(implementations[0]);
                 }
                 else
                 {
@@ -68,7 +68,7 @@
             return result;
         }
 
-        private object HandleSingletonCase(Implementation implementation)
+        private object CreateObjectOrGetObjectIfSingleton(Implementation implementation)
         {
             if (implementation.IsSingleton)
             {
@@ -94,7 +94,7 @@
         {
             object? result = null;
 
-            if (type.ContainsGenericParameters)
+            if (type.IsGenericType)
             {
                 var genericArguments = type.GetGenericArguments();
                 var genericParams = genericArguments.Select(dependency =>
